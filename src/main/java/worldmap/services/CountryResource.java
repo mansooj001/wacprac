@@ -1,10 +1,10 @@
 /**
  * Created by jason on 6/21/2016.
  */
-package worldmap.model;
+package worldmap.services;
 
-        import worldmap.services.CountryService;
-        import worldmap.services.ServiceProvider;
+        import worldmap.model.Country;
+
         import javax.json.Json;
         import javax.json.JsonArray;
         import javax.json.JsonArrayBuilder;

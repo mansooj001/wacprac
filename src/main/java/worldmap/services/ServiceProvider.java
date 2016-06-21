@@ -1,6 +1,5 @@
 package worldmap.services;
 
-import worldmap.services.CountryService;
 
 public class ServiceProvider {
 	private static CountryService worldService = new CountryService();

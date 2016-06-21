@@ -15,8 +15,8 @@ class BaseDAO {
             e.printStackTrace();
         }
         String url = "jdbc:mysql://127.12.233.130:3306"; // localhost of 127.12.233.130
-        String name = "adminDsfEnaq";
-        String password = "Wq5QfV72xebQ";
+        String name = "admingeldaqa";
+        String password = "nNuWCswgXPv_";
         Connection con = null;
         try {
             con = DriverManager.getConnection(url, name, password);
