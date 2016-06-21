@@ -1,0 +1,28 @@
+package worldmap.DAOs;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ * Created by jason on 6/22/2016.
+ */
+class BaseDAO {
+    static Connection getConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String url = "jdbc:mysql://127.12.233.130:3306"; // localhost of 127.12.233.130
+        String name = "adminDsfEnaq";
+        String password = "Wq5QfV72xebQ";
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(url, name, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return con;
+    }
+}
