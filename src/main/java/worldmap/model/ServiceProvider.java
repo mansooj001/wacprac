@@ -1,4 +1,4 @@
-package worldmap.services;
+package worldmap.model;
 
 
 public class ServiceProvider {

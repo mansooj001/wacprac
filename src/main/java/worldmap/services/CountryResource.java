@@ -4,6 +4,8 @@
 package worldmap.services;
 
         import worldmap.model.Country;
+        import worldmap.model.CountryService;
+        import worldmap.model.ServiceProvider;
 
         import javax.json.Json;
         import javax.json.JsonArray;
