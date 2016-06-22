@@ -116,7 +116,7 @@ public class CountryResource {
     @GET
     @Path("/largestpopulations")
     @Produces("application/json")
-    public String getCountriesWithLargestPopulation() throws SQLException {
+    public String getCountriesWithLargestPopulation() {
         CountryService service = ServiceProvider.getWorldService();
         JsonArrayBuilder jab = Json.createArrayBuilder();
         for (Country c : service.get10LargestPopulations()) {

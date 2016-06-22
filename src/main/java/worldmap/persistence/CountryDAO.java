@@ -28,55 +28,85 @@ public class CountryDAO extends BaseDAO {
         }
     }
 
-    public Country save(Country country) throws SQLException {
+    public Country save(Country country) {
         CountryResource countryResource = new CountryResource();
-        if (countryResource.getAllCountries().isEmpty() || countryResource.getAllCountries() == null) {
-            String query = INSERT_INTO_COUNTRY +
-                    "VALUES (" +
-                    country.getCode() +
-                    ", " +
-                    country.getName() +
-                    ", " +
-                    country.getContinent() +
-                    ", " +
-                    country.getRegion() +
-                    ", " +
-                    country.getSurface() +
-                    ", " +
-                    country.getPopulation() +
-                    ", " +
-                    country.getGovernment() +
-                    ")";
-            commitQuery(query);
+        try {
+            if (countryResource.getAllCountries().isEmpty() || countryResource.getAllCountries() == null) {
+                String query = INSERT_INTO_COUNTRY +
+                        "VALUES (" +
+                        country.getCode() +
+                        ", " +
+                        country.getName() +
+                        ", " +
+                        country.getContinent() +
+                        ", " +
+                        country.getRegion() +
+                        ", " +
+                        country.getSurface() +
+                        ", " +
+                        country.getPopulation() +
+                        ", " +
+                        country.getGovernment() +
+                        ")";
+                commitQuery(query);
+                return country;
+            } else {
+                update(country);
+            }
             return country;
-        } else {
-            update(country);
+        } catch (SQLException e) {
+            e.getMessage();
         }
-        return country;
+        return null;
     }
 
-    public ArrayList<Country> findAll() throws SQLException{
+    public ArrayList<Country> findAll() {
         String query = "SELECT * FROM " + TABLE_NAME;
-        return resultSetToCountry(query);
+        try {
+            return resultSetToCountry(query);
+        } catch (SQLException e) {
+            System.out.println("Iets is misgegaan bij findAll()");
+            e.getMessage();
+        }
+        System.out.println("findAll() ging mis");
+        return null;
     }
 
-    public Country findByCode(String countryCode) throws SQLException{
-        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE code = '" + countryCode + "'";
-          return resultSetToCountry(query).get(0);
+    public Country findByCode(String countryCode) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE code = '" + countryCode + "'";
+        try {
+            return resultSetToCountry(query).get(0);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        System.out.println("findByCode() ging mis");
+        return null;
     }
 
-    public ArrayList<Country> find10LargestPopulations() throws SQLException {
+    public ArrayList<Country> find10LargestPopulations() {
         final String query = "SELECT * FROM country " +
                 "ORDER BY Population DESC " +
                 "LIMIT 0, 10";
-        return resultSetToCountry(query);
+        try {
+            return resultSetToCountry(query);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        System.out.println("findlargestpopulation() ging mis");
+        return null;
     }
 
-    public ArrayList<Country> find10LargestSurfaces() throws SQLException {
+    public ArrayList<Country> find10LargestSurfaces() {
         final String query = "SELECT * FROM country " +
                 "ORDER BY SurfaceArea DESC " +
                 "LIMIT 0, 10";
-        return resultSetToCountry(query);
+        try {
+            return resultSetToCountry(query);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        System.out.println("findlargestsurface() ging mis");
+        return null;
     }
 
     private Country update(Country country) {
@@ -133,7 +163,7 @@ public class CountryDAO extends BaseDAO {
         try (Connection connection = getConnection()) {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
-            Country newCountry;
+            Country newCountry = null;
             while (rs.next()) {
                 String code = rs.getString("code");
                 String name = rs.getString("name");
