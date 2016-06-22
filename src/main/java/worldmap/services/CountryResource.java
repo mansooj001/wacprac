@@ -20,7 +20,7 @@ package worldmap.services;
 
 @Path("/countries")
 public class CountryResource {
-    private static final Logger logger = Logger.getLogger(CountryResource.class.getName());
+    //private static final Logger logger = Logger.getLogger(CountryResource.class.getName());
 
     /*
      * 1. Een lijst van alle landen waar informatie van is, TYPE: GET, URI:
@@ -73,7 +73,8 @@ public class CountryResource {
             job.add("surface", c.getSurface());
             jab.add(job);
         } catch (NullPointerException e) {
-            logger.log(Level.SEVERE, "Could not find country by code", e);
+            System.out.println("Iets is leeg bij getCountry()");
+            e.getMessage();
         }
 
         JsonArray array = jab.build();
@@ -99,6 +100,7 @@ public class CountryResource {
             job.add("population", c.getPopulation());
             job.add("region", c.getRegion());
             job.add("surface", c.getSurface());
+            
             jab.add(job);
         }
 

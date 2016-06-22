@@ -55,91 +55,28 @@ public class CountryDAO extends BaseDAO {
         return country;
     }
 
-    public ArrayList<Country> findAll() {
-        ArrayList<Country> results = new ArrayList<>();
+    public ArrayList<Country> findAll() throws SQLException{
         String query = "SELECT * FROM " + TABLE_NAME;
-        try {
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
-                String code = rs.getString("Code");
-                String name = rs.getString("Name");
-                String continent = rs.getString("Continent");
-                String region = rs.getString("Region");
-                double surfaceArea = rs.getDouble("SurfaceArea");
-                double indepYear = rs.getDouble("IndepYear");
-                int population = rs.getInt("Population");
-                String governmentForm = rs.getString("GovernmentForm");
-                if (indepYear > 0) {
-                    Country c = new Country(code, name, region, continent, surfaceArea, population, governmentForm);
-                    results.add(c);
-                } else {
-                    Country c = new Country(code, name, region, continent, surfaceArea, indepYear, population, governmentForm);
-                    results.add(c);
-                }
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println("Iets is misgegaan bij findAll()");
-            e.getMessage();
-        }
-        return results;
+        return resultSetToCountry(query);
     }
 
-    public Country findByCode(String countryCode) {
+    public Country findByCode(String countryCode) throws SQLException{
         final String query = "SELECT * FROM " + TABLE_NAME + " WHERE code = '" + countryCode + "'";
-        Country newCountry = null;
-        try {
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
-                String code = rs.getString("code");
-                String name = rs.getString("name");
-                String continent = rs.getString("continent");
-                double surfacearea = rs.getDouble("surfacearea");
-                String region = rs.getString("region");
-                int population = rs.getInt("population");
-                String governmentform = rs.getString("governmentform");
-
-                newCountry = new Country(code, name, region, continent, surfacearea, population, governmentform);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println("er is iets mis gegaan bij findByCode()");
-            e.getMessage();
-        }
-        return newCountry;
+          return resultSetToCountry(query).get(0);
     }
 
-    public ArrayList<Country> find10LargestPopulations() {
-
+    public ArrayList<Country> find10LargestPopulations() throws SQLException {
         final String query = "SELECT * FROM country " +
                 "ORDER BY Population DESC " +
                 "LIMIT 0, 10";
-
-        ArrayList<Country> results = new ArrayList<>();
-
-        try {
-            resultSetToCountry(query);
-        } catch (SQLException e) {
-            System.out.println("er is iets mis gegaan bij find10LargestPopulations()");
-            e.getMessage();
-        }
-        return results;
+        return resultSetToCountry(query);
     }
 
-    public ArrayList<Country> find10LargestSurfaces() {
+    public ArrayList<Country> find10LargestSurfaces() throws SQLException {
         final String query = "SELECT * FROM country " +
                 "ORDER BY SurfaceArea DESC " +
                 "LIMIT 0, 10";
-
-        ArrayList<Country> results = new ArrayList<>();
-
-        try {
-            resultSetToCountry(query);
-        } catch (SQLException e) {
-            System.out.println("er is iets mis gegaan bij find10LargestSurfaces()");
-            e.getMessage();
-        }
-        return results;
+        return resultSetToCountry(query);
     }
 
     private Country update(Country country) {
@@ -191,23 +128,31 @@ public class CountryDAO extends BaseDAO {
         }
     }
 
-    private Country resultSetToCountry(String query) throws SQLException {
-        ResultSet rs = statement.executeQuery(query);
-
-        while (rs.next()) {
-            String code = rs.getString("code");
-            String name = rs.getString("name");
-            String continent = rs.getString("continent");
-            double surfaceArea = rs.getDouble("surfacearea");
-            String region = rs.getString("region");
-            int population = rs.getInt("population");
-            String governmentForm = rs.getString("GovernmentForm");
-
-            Country c = new Country(code, name, region, continent, surfaceArea, population, governmentForm);
+    private ArrayList<Country> resultSetToCountry(String query) throws SQLException {
+        ArrayList<Country> result = new ArrayList<>();
+        try (Connection connection = getConnection()) {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            Country newCountry;
+            while (rs.next()) {
+                String code = rs.getString("code");
+                String name = rs.getString("name");
+                String continent = rs.getString("continent");
+                double surfaceArea = rs.getDouble("surfacearea");
+                String region = rs.getString("region");
+                double indepYear = rs.getDouble("IndepYear");
+                int population = rs.getInt("population");
+                String governmentForm = rs.getString("GovernmentForm");
+                if (indepYear > 0) {
+                    newCountry = new Country(code, name, region, continent, surfaceArea, population, governmentForm);
+                    result.add(newCountry);
+                } else {
+                    newCountry = new Country(code, name, region, continent, surfaceArea, indepYear, population, governmentForm);
+                    result.add(newCountry);
+                }
+            }
             rs.close();
-            return c;
+            return result;
         }
-        System.out.println("er is iets mis gegaan bij resultSetToCountry()");
-        return null;
     }
 }
