@@ -18,11 +18,11 @@ public class CountryDAO extends BaseDAO {
     private Connection connection;
     private Statement statement;
 
-    public CountryDAO() throws SQLException {
+    public CountryDAO() {
         connection = getConnection();
         try {
             statement = connection.createStatement();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("countryDAO constructor geeft een error");
             e.getMessage();
         }
