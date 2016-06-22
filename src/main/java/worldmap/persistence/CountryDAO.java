@@ -18,6 +18,16 @@ public class CountryDAO extends BaseDAO {
     private Connection connection;
     private Statement statement;
 
+    public CountryDAO() throws SQLException {
+        connection = getConnection();
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e){
+            System.out.println("countryDAO constructor geeft een error");
+            e.getMessage();
+        }
+    }
+
     public Country save(Country country) {
         CountryResource countryResource = new CountryResource();
         if (countryResource.getAllCountries().isEmpty() || countryResource.getAllCountries() == null) {
@@ -158,7 +168,7 @@ public class CountryDAO extends BaseDAO {
 
         try {
             statement.executeUpdate(query);
-            connection.commit();
+            commitQuery(query);
             return true;
         } catch (SQLException e) {
             System.out.println("er is iets mis gegaan bij delete()");

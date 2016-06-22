@@ -2,10 +2,14 @@ package worldmap.model;
 
 import worldmap.persistence.CountryDAO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class CountryService {
     private CountryDAO countryDAO = new CountryDAO();
+
+    CountryService() throws SQLException {
+    }
 
     public List<Country> getAllCountries() {
         return countryDAO.findAll();
