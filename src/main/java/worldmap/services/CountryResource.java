@@ -15,6 +15,7 @@ package worldmap.services;
         import javax.ws.rs.Path;
         import javax.ws.rs.PathParam;
         import javax.ws.rs.Produces;
+        import java.sql.SQLException;
         import java.util.logging.Level;
         import java.util.logging.Logger;
 
@@ -28,7 +29,7 @@ public class CountryResource {
      */
     @GET
     @Produces("application/json")
-    public String getAllCountries() {
+    public String getAllCountries() throws SQLException {
         CountryService service = ServiceProvider.getWorldService();
         JsonArrayBuilder jab = Json.createArrayBuilder();
         for (Country c : service.getAllCountries()) {
@@ -57,7 +58,7 @@ public class CountryResource {
     @GET
     @Path("/{id}")
     @Produces("application/json")
-    public String getCountry(@PathParam("id") String id) {
+    public String getCountry(@PathParam("id") String id) throws SQLException {
         CountryService service = ServiceProvider.getWorldService();
         JsonArrayBuilder jab = Json.createArrayBuilder();
         Country c = service.getCountryByCode(id);
@@ -88,7 +89,7 @@ public class CountryResource {
     @GET
     @Path("/largestsurfaces")
     @Produces("application/json")
-    public String get10BiggestCountries() {
+    public String get10BiggestCountries() throws SQLException {
         CountryService service = ServiceProvider.getWorldService();
         JsonArrayBuilder jab = Json.createArrayBuilder();
         for (Country c : service.get10LargestSurfaces()) {
@@ -100,7 +101,7 @@ public class CountryResource {
             job.add("population", c.getPopulation());
             job.add("region", c.getRegion());
             job.add("surface", c.getSurface());
-            
+
             jab.add(job);
         }
 
@@ -115,7 +116,7 @@ public class CountryResource {
     @GET
     @Path("/largestpopulations")
     @Produces("application/json")
-    public String getCountriesWithLargestPopulation() {
+    public String getCountriesWithLargestPopulation() throws SQLException {
         CountryService service = ServiceProvider.getWorldService();
         JsonArrayBuilder jab = Json.createArrayBuilder();
         for (Country c : service.get10LargestPopulations()) {

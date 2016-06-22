@@ -28,7 +28,7 @@ public class CountryDAO extends BaseDAO {
         }
     }
 
-    public Country save(Country country) {
+    public Country save(Country country) throws SQLException {
         CountryResource countryResource = new CountryResource();
         if (countryResource.getAllCountries().isEmpty() || countryResource.getAllCountries() == null) {
             String query = INSERT_INTO_COUNTRY +
