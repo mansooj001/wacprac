@@ -8,9 +8,6 @@ import java.util.List;
 public class CountryService {
     private CountryDAO countryDAO = new CountryDAO();
 
-    CountryService(){
-    }
-
     public List<Country> getAllCountries() {
         return countryDAO.findAll();
     }

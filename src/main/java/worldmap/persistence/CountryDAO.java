@@ -69,10 +69,13 @@ public class CountryDAO extends BaseDAO {
                 double indepYear = rs.getDouble("IndepYear");
                 int population = rs.getInt("Population");
                 String governmentForm = rs.getString("GovernmentForm");
-
-                Country c = new Country(code, name, region, continent, surfaceArea, population, governmentForm);
-
-                results.add(c);
+                if (indepYear > 0) {
+                    Country c = new Country(code, name, region, continent, surfaceArea, population, governmentForm);
+                    results.add(c);
+                } else {
+                    Country c = new Country(code, name, region, continent, surfaceArea, indepYear, population, governmentForm);
+                    results.add(c);
+                }
             }
             rs.close();
         } catch (SQLException e) {

@@ -6,6 +6,7 @@ public class Country {
     private String continent;
     private String region;
     private double surface;
+    private double indepYear;
     private int population;
     private String government;
 
@@ -15,6 +16,17 @@ public class Country {
         continent = ct;
         region = reg;
         surface = sur;
+        population = pop;
+        government = gov;
+    }
+
+    public Country(String cd, String nm, String ct, String reg, double sur, double indepYear, int pop, String gov) {
+        code = cd;
+        name = nm;
+        continent = ct;
+        region = reg;
+        surface = sur;
+        this.indepYear = indepYear;
         population = pop;
         government = gov;
     }
